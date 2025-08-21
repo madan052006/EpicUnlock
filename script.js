@@ -1,103 +1,84 @@
-// =========== CONFIG ===========
-const TELEGRAM_BOT_LINK = "https://t.me/Epic_rewards_bot"; // tumhara bot
-const AD_WAIT_SECONDS = 10;                                  // ad ke seconds
-const TASKS_FILE = "tasks.json";                             // tasks data file
-// ===============================
+// --- config (tumhare links) ---
+const TELEGRAM_BOT_LINK = "https://t.me/Epic_rewards_bot";
+const REQUIRED_CHANNEL = "https://t.me/epicunlock";
 
-// Elements
-const tasksContainer = document.getElementById("tasks");
-const bar            = document.getElementById("bar");
-const progressText   = document.getElementById("progressText");
-const checkTasksBtn  = document.getElementById("checkTasks");
-const hint           = document.getElementById("hint");
-const modal          = document.getElementById("adModal");
-const continueBtn    = document.getElementById("continueBtn");
-
-// Keep a session id so the user gets a consistent one
-let sessionId = localStorage.getItem("epicunlock_session");
-if (!sessionId) {
-  sessionId = "SESS-" + Math.random().toString(36).slice(2, 8).toUpperCase();
-  localStorage.setItem("epicunlock_session", sessionId);
+// session id (sirf track ke liye)
+function makeSess() {
+  return "SESS-" + Math.random().toString(36).slice(2, 8).toUpperCase();
 }
 
-// Load tasks from tasks.json and render
-async function loadTasks() {
-  try {
-    const res = await fetch(TASKS_FILE, { cache: "no-store" });
-    const tasks = await res.json();
-    renderTasks(tasks);
-  } catch (e) {
-    tasksContainer.innerHTML = "<p>Could not load tasks. Please refresh.</p>";
-    console.error("Tasks load error:", e);
-  }
-}
+// DOM refs
+const tasksEl = document.getElementById("tasks");
+const bar = document.getElementById("bar");
+const pct = document.getElementById("pct");
+const goBtn = document.getElementById("goBtn");
+const modal = document.getElementById("modal");
+const secEl = document.getElementById("sec");
+const skip = document.getElementById("skip");
 
-// Render tasks (checkbox list)
-function renderTasks(tasks) {
-  tasksContainer.innerHTML = "";
-  tasks.forEach((task) => {
-    const label = document.createElement("label");
-    label.innerHTML = `<input type="checkbox" value="${task.id}"> ${task.text}`;
-    // Open link in new tab when user clicks label (or text)
-    label.addEventListener("click", (ev) => {
-      // Open the link only on first click (so it doesn't open repeatedly)
-      if (!label.dataset.opened) {
-        window.open(task.link, "_blank");
-        label.dataset.opened = "1";
-      }
-    });
-    tasksContainer.appendChild(label);
+// year
+document.getElementById("y").textContent = new Date().getFullYear();
+
+// load tasks.json
+fetch("tasks.json")
+  .then(r => r.json())
+  .then(renderTasks)
+  .catch(() => {
+    tasksEl.innerHTML = `<div class="task"><label><div><div class="title">Could not load tasks</div><div class="desc">Ensure tasks.json is in the same folder.</div></div></label></div>`;
   });
 
-  // Listen for checkbox changes to update progress
-  document.addEventListener("change", updateProgress);
-  updateProgress();
+let total = 0, done = 0;
+
+function renderTasks(list) {
+  total = list.length;
+  tasksEl.innerHTML = list.map((t, i) => `
+    <div class="task">
+      <label>
+        <input type="checkbox" data-i="${i}">
+        <div>
+          <div class="title">${t.title}</div>
+          <div class="desc">${t.desc}</div>
+        </div>
+      </label>
+    </div>
+  `).join("");
+
+  tasksEl.addEventListener("change", (e) => {
+    if (e.target && e.target.matches('input[type="checkbox"]')) {
+      done = [...document.querySelectorAll('input[type="checkbox"]')].filter(c => c.checked).length;
+      const p = Math.round((done / total) * 100);
+      bar.style.width = p + "%";
+      pct.textContent = p + "%";
+      goBtn.disabled = p !== 100;
+    }
+  });
 }
 
-// Update progress bar and enable continue when all done
-function updateProgress() {
-  const total = document.querySelectorAll("#tasks input[type='checkbox']").length;
-  const done  = document.querySelectorAll("#tasks input[type='checkbox']:checked").length;
-
-  const percent = total ? Math.floor((done / total) * 100) : 0;
-  bar.style.width = percent + "%";
-  progressText.textContent = `${percent}% complete`;
-
-  if (done === total && total > 0) {
-    checkTasksBtn.disabled = false;
-    hint.textContent = "All tasks complete! Continue to Telegram.";
-  } else {
-    checkTasksBtn.disabled = true;
-    hint.textContent = "Complete all tasks to continue.";
-  }
-}
-
-// Show ad modal with countdown, then allow continue
-checkTasksBtn.addEventListener("click", () => {
-  modal.style.display = "flex";
-  let sec = AD_WAIT_SECONDS;
-  continueBtn.disabled = true;
-  continueBtn.textContent = `Wait ${sec}s`;
-
-  const timer = setInterval(() => {
-    sec--;
-    if (sec > 0) {
-      continueBtn.textContent = `Wait ${sec}s`;
-    } else {
-      clearInterval(timer);
-      continueBtn.disabled = false;
-      continueBtn.textContent = "Continue";
+// ad wait → then redirect to Telegram bot with session id
+goBtn.addEventListener("click", () => {
+  modal.classList.remove("hidden");
+  let s = 10;
+  secEl.textContent = s;
+  skip.disabled = true;
+  const t = setInterval(() => {
+    s--;
+    secEl.textContent = s.toString().padStart(2, "0");
+    if (s <= 0) {
+      clearInterval(t);
+      skip.disabled = false;
+      // auto-continue
+      doContinue();
     }
   }, 1000);
+
+  skip.onclick = () => {
+    doContinue();
+  };
 });
 
-// Redirect to Telegram bot with deep-link parameter
-continueBtn.addEventListener("click", () => {
-  // optional: close modal
-  modal.style.display = "none";
-  // Send user to bot with start param (session id)
-  window.location.href = `${TELEGRAM_BOT_LINK}?start=${encodeURIComponent(sessionId)}`;
-});
-
-// Kick off
-loadTasks();
+function doContinue() {
+  const sess = makeSess();
+  // IMPORTANT: website par koi redeem code Nahi — sab bot me hoga
+  const url = `${TELEGRAM_BOT_LINK}?start=${encodeURIComponent(sess)}`;
+  window.location.href = url;
+}
