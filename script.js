@@ -1,3 +1,23 @@
+// Load tasks from tasks.json
+fetch('tasks.json')
+  .then(response => response.json())
+  .then(tasksData => {
+    renderTasks(tasksData); // नीचे function को call करेगा
+  });
+
+// Render tasks function
+function renderTasks(tasksData) {
+  const tasksContainer = document.getElementById("tasks");
+  
+  tasksData.forEach(task => {
+    const label = document.createElement("label");
+    label.innerHTML = `<input type="checkbox" value="${task.id}"> ${task.text}`;
+    label.addEventListener("click", () => {
+      window.open(task.link, "_blank"); // link open karega
+    });
+    tasksContainer.appendChild(label);
+  });
+}
 // Tasks list
 const tasksData = [
   { id: 1, text: "Join our Telegram Bot", link: "https://t.me/Epic_rewards_bot" },
