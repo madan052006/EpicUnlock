@@ -1,52 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EpicUnlock — Rewards</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EpicUnlock — Tasks</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <h1>EpicUnlock Rewards</h1>
-    <nav class="links">
-      <a href="https://t.me/Epic_rewards_bot" target="_blank">Telegram Bot</a>
-      <a href="https://t.me/epicunlock" target="_blank">Telegram Channel</a>
-      <a href="https://www.youtube.com/@ALERTLORDYT" target="_blank">YouTube</a>
+  <header class="top">
+    <div class="brand">EpicUnlock</div>
+    <nav class="nav">
+      <a href="https://t.me/Epic_rewards_bot" target="_blank" rel="noopener">Telegram Bot</a>
+      <a href="https://t.me/epicunlock" target="_blank" rel="noopener">Channel</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
     </nav>
   </header>
 
-  <main>
+  <main class="wrap">
     <section class="hero">
-      <h2>Unlock exclusive rewards</h2>
-      <p>Complete tasks below and get your redeem code on Telegram.</p>
+      <h1>Complete Tasks → Get Reward on Telegram</h1>
+      <p class="muted">Redeem code <b>sirf Telegram bot</b> par milega. Website par code <u>nahi</u> dikhega.</p>
     </section>
 
     <section class="card">
-      <h3>Tasks</h3>
-      <div id="tasks"></div>
+      <h2 class="h2">Your Tasks</h2>
+      <div id="tasks" class="tasks"></div>
 
       <div class="progress">
-        <div id="bar" class="bar"></div>
+        <div id="bar" class="bar" style="width:0%"></div>
       </div>
-      <span id="progressText">0% complete</span>
+      <div class="progress-text"><span id="pct">0%</span> completed</div>
 
-      <button id="checkTasks" disabled>Continue to Telegram</button>
-      <p id="hint">Complete all tasks to continue.</p>
+      <button id="goBtn" class="btn" disabled>Continue (10s)</button>
+      <p class="note">⚠️ Proof Telegram par bhejna zaroori hai — tabhi reward milega.</p>
     </section>
   </main>
 
-  <!-- Ad Modal -->
-  <div id="adModal" class="modal">
-    <div class="modal-content">
-      <h3>Sponsored</h3>
-      <div id="ad-slot">
-        <!-- Yaha apna AdSense ya partner ad script daalna -->
-        <p>Ad will appear here. Please wait 10 seconds...</p>
-      </div>
-      <button id="continueBtn" disabled>Continue</button>
+  <!-- Ad / wait modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-box">
+      <h3>Ad Break</h3>
+      <p>Reward par jaane se pehle thoda sa wait karo…</p>
+      <div class="count">00:<span id="sec">10</span></div>
+      <button id="skip" class="btn outline" disabled>Continue</button>
     </div>
   </div>
+
+  <footer class="foot">© <span id="y"></span> EpicUnlock • Rewards via <a href="https://t.me/Epic_rewards_bot" target="_blank" rel="noopener">@EpicRewards_bot</a></footer>
 
   <script src="script.js"></script>
 </body>
