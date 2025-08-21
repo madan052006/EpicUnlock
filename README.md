@@ -3,7 +3,7 @@
 EpicUnlock is a simple redeem code generator website with custom tasks like **Subscribe, Follow, and Share**.  
 
 ## Features
-- 🎯 Generate unique redeem codes
+- 🎯 claim unique redeem codes
 - 🔥 Custom tasks system (Subscribe, Follow, Share)
 - 💻 Responsive UI (HTML, CSS, JS)
 - 📂 JSON-based task storage
