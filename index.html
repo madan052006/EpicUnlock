@@ -1,32 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EpicUnlock - Redeem Rewards</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EpicUnlock — Rewards</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<bod<!-- YouTube Button -->
-<a href="https://www.youtube.com/@ALERTLORDYT" target="_blank" 
-   style="display:inline-block; padding:12px 20px; background:#ff0000; color:white; font-weight:bold; text-decoration:none; border-radius:8px; margin:10px; font-family:sans-serif;">
-   🎥 Subscribe on YouTube
-</a>
+<body>
+  <header class="topbar">
+    <h1>EpicUnlock Rewards</h1>
+    <nav class="links">
+      <a href="https://t.me/Epic_rewards_bot" target="_blank">Telegram Bot</a>
+      <a href="https://t.me/epicunlock" target="_blank">Telegram Channel</a>
+      <a href="https://www.youtube.com/@ALERTLORDYT" target="_blank">YouTube</a>
+    </nav>
+  </header>
 
-<!-- Instagram Button -->
-<a href="https://www.instagram.com/alert_bhai?igsh=OXJ4czFnaWhjMXI3" target="_blank" 
-   style="display:inline-block; padding:12px 20px; background:#E1306C; color:white; font-weight:bold; text-decoration:none; border-radius:8px; margin:10px; font-family:sans-serif;">
-   📸 Follow on Instagram
-</a>
-  y>
-  <div class="container">
-    <h1>🎁 EpicUnlock Rewards 🎁</h1>
-    <p>Complete the tasks below to unlock your redeem code!</p>
+  <main>
+    <section class="hero">
+      <h2>Unlock exclusive rewards</h2>
+      <p>Complete tasks below and get your redeem code on Telegram.</p>
+    </section>
 
-    <div id="tasks"></div>
+    <section class="card">
+      <h3>Tasks</h3>
+      <div id="tasks"></div>
 
-    <button id="checkTasks">Get Redeem Code</button>
-    <p id="redeemCode"></p>
+      <div class="progress">
+        <div id="bar" class="bar"></div>
+      </div>
+      <span id="progressText">0% complete</span>
+
+      <button id="checkTasks" disabled>Continue to Telegram</button>
+      <p id="hint">Complete all tasks to continue.</p>
+    </section>
+  </main>
+
+  <!-- Ad Modal -->
+  <div id="adModal" class="modal">
+    <div class="modal-content">
+      <h3>Sponsored</h3>
+      <div id="ad-slot">
+        <!-- Yaha apna AdSense ya partner ad script daalna -->
+        <p>Ad will appear here. Please wait 10 seconds...</p>
+      </div>
+      <button id="continueBtn" disabled>Continue</button>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
