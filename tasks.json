@@ -1,22 +1,18 @@
 [
   {
-    "id": 1,
-    "text": "Join our Telegram Bot",
-    "link": "https://t.me/Epic_rewards_bot"
+    "title": "Join our Telegram Channel",
+    "desc": "Open and join: t.me/epicunlock"
   },
   {
-    "id": 2,
-    "text": "Join our Telegram Channel",
-    "link": "https://t.me/epicunlock"
+    "title": "Start the Telegram Bot",
+    "desc": "Open and hit Start: @EpicRewards_bot"
   },
   {
-    "id": 3,
-    "text": "Subscribe on YouTube",
-    "link": "https://www.youtube.com/@ALERTLORDYT"
+    "title": "Subscribe on YouTube",
+    "desc": "Open our YouTube and subscribe"
   },
   {
-    "id": 4,
-    "text": "Follow on Instagram",
-    "link": "https://instagram.com/"
+    "title": "Follow on Instagram",
+    "desc": "Open Instagram profile and follow"
   }
 ]
